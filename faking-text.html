@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faking Text</title>
+</head>
+<body>
+    <h1>Faking Text</h1>
+    <textarea id="faking-text" cols="30" rows="10" disabled></textarea>
+    <script>
+        let count = 0;
+        function fakingText() {
+            let str = "";
+            let word = "TÔI LÀ MỘT NGƯỜI THÔNG MINH!";
+            let arrayWord = word.split(" ");
+            count++;
+
+            for(let i = 0; i < count;i++){
+                str += arrayWord[i]+" ";
+                if(count > arrayWord.length){
+                    str = "";
+                    count = 0;
+                }
+            }
+            
+            document.getElementById('faking-text').innerText = str;
+        }
+
+        window.addEventListener('keydown',fakingText);
+        
+    </script>
+</body>
+</html>

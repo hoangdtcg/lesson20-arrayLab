@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary</title>
+</head>
+<body>
+    <input type="text" id="word" placeholder="Từ bạn muốn dịch">
+    <p id="result"></p>
+    <button style="display: none;" id="suggest" onclick="suggestTrans()">Đóng góp bản dịch</button>
+    <br>
+    <button onclick="translator()">Dịch</button>
+    <script>
+        let english = [];
+        let vietnamese = [];
+
+        layDuLieu();
+        function translator() {
+            // let dict = [
+            //     ["Hi","Xin Chào"],
+            //     ["Bye", "Tạm biệt"]
+            // ]
+
+            
+            let word = document.getElementById('word').value;
+            let index = english.indexOf(word.toLowerCase());
+            console.log(index);
+            if(index != -1){
+                document.getElementById('result').innerText = vietnamese[index];
+            }else{
+                document.getElementById('result').innerText = "Không có từ phù hợp";
+                document.getElementById('suggest').style.display = 'block';
+            }
+            
+        }
+
+        function suggestTrans() {
+            let word = document.getElementById('word').value;
+            english.push(word);
+            let trans = prompt("Nhập nghĩa của từ "+word);
+            vietnamese.push(trans);
+            alert('Cảm ơn bạn đã đóng góp bản dịch');
+            document.getElementById('suggest').style.display = 'none';
+            luuDuLieu();
+
+        }
+
+        function luuDuLieu() {
+            window.localStorage.setItem('en',JSON.stringify(english));
+            window.localStorage.setItem('vn',JSON.stringify(vietnamese));
+        }
+
+        function layDuLieu() {
+            englishStr = window.localStorage.getItem('en');
+            english = JSON.parse(englishStr);
+            vietnamese = JSON.parse(window.localStorage.getItem('vn'));
+        }
+    </script>
+</body>
+</html>

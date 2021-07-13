@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Store Fruit</title>
+</head>
+<style>
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    float: left;
+    margin-left: 20px;  
+  }
+  
+  .price {
+    color: grey;
+    font-size: 22px;
+  }
+  
+  .card button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+  
+  .card button:hover {
+    opacity: 0.7;
+  }
+  </style>
+<body>
+    <form id="add-fruit">
+        <fieldset>
+            <legend>Thêm hoa quả mới</legend>
+            <input type="text" id="name-fruit" placeholder="Nhập tên hoa quả">
+            <input type="text" id="desc-fruit" placeholder="Nhập thông tin xuất xứ">
+            <input type="number" id="price-fruit" placeholder="Nhập giá bán">
+            <input type="text" id="image-fruit" placeholder="Nhập link ảnh">
+            <button type="button" onclick="addFruit()">Nhập</button>
+            <button type="button" onclick="clearForm()">Huỷ</button>
+        </fieldset>
+    </form>
+
+    <button onclick="display()">Show All Fruits</button>
+    <table id="store-fruit" border="1px">
+    </table>
+
+    <div id="fruits">
+        
+    </div>
+    <script>
+        let fruits = [];
+
+        loadData();
+
+        // CRUD
+        //Read
+        function display() {
+            let str = "";
+            for (let i = 0; i < fruits.length; i++) {
+                str += '<tr>';
+                str += "<td>"+fruits[i][0]+"</td>";
+                str += "<td>"+fruits[i][1]+"</td>";
+                str += "<td>"+fruits[i][2]+"</td>";
+                str += "<td><img src="+fruits[i][3]+"></td>";
+                str += "<td><button onclick='deleteFruit("+i+")'>Xoá</button></td>";
+                str += '</tr>';
+            }
+            document.getElementById('store-fruit').innerHTML = str;
+        }
+
+        function display2() {
+            let str = "";
+            for (let i = 0; i < fruits.length; i++) {
+                str += `<div class="card">
+                            <img src="${fruits[i][3]}" alt="Denim Jeans" style="width:100%">
+                            <h1>${fruits[i][0]}</h1>
+                            <p class="price">${fruits[i][2]}</p>
+                            <p>${fruits[i][1]}</p>
+                            <p><button>Add to Cart</button></p>
+                        </div>`;
+            }
+            document.getElementById('fruits').innerHTML = str;
+        }
+        display2();
+
+        //Create
+        function addFruit() {
+            let name = document.getElementById('name-fruit').value;
+            let desc = document.getElementById('desc-fruit').value;
+            let price = document.getElementById('price-fruit').value;
+            let image = document.getElementById('image-fruit').value;
+
+            let fruit = [name,desc,price,image];
+            fruits.unshift(fruit);
+            saveData();
+            display2();
+            clearForm();
+        }
+
+        //Delete
+        function deleteFruit(index) {
+            console.log(index);
+            fruits.splice(index,1);
+            saveData();
+            display2();
+        }
+
+        function clearForm() {
+            document.getElementById('add-fruit').reset();
+        }
+
+        function saveData() {
+            window.localStorage.setItem('fruit',JSON.stringify(fruits));
+        }
+
+        function loadData() {
+            if(window.localStorage.hasOwnProperty('fruit')){
+                fruits = JSON.parse(window.localStorage.getItem('fruit'));
+            }else{
+                fruits = [];
+            }
+        }
+
+    </script>
+</body>
+</html>
